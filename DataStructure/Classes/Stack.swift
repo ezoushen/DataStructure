@@ -10,7 +10,7 @@ import Foundation
 public struct Stack<T> {
     private var _contents: [T]
     
-    private(set) public var count: Int
+    private(set) public var count: Int = 0
     
     private(set) public var capacity: Int {
         didSet {
@@ -27,7 +27,6 @@ public struct Stack<T> {
     }
     
     public init(capacity: Int) {
-        self.count = 0
         self.capacity = capacity
         
         _contents = [T]()
@@ -77,5 +76,16 @@ public struct Stack<T> {
 extension Stack: CustomStringConvertible {
     public var description: String {
         return _contents[...(count-1)].description
+    }
+}
+
+extension Stack: ExpressibleByArrayLiteral {
+    
+    public typealias ArrayLiteralElement = T
+    
+    public init(arrayLiteral elements: T...) {
+        count = elements.count
+        capacity = elements.count
+        _contents = elements
     }
 }

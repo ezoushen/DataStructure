@@ -104,4 +104,9 @@ class StackTests: XCTestCase {
         sut.pop()
         XCTAssert(sut.description == [1,2].description)
     }
+    
+    func test_expressByArrayLiteral() {
+        sut = [1, 2, 3]
+        XCTAssert([1, 2, 3].description == sut.description)
+    }
 }
