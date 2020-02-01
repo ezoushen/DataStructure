@@ -76,11 +76,8 @@ public struct Queue<T> {
     
     public mutating func resize(capacity newCapacity: Int) {
         precondition(capacity >= count, "required capacity must be greater than the number of contents")
-        
+        _contents.reserveCapacity(newCapacity)
         let size = MemoryLayout<T>.stride
-        _head = 0
-        _tail = count - 1
-        capacity = newCapacity
         if _head > _tail {
             let isFirst = capacity - _head <= _tail + 1
             let temp = malloc(size * (isFirst ? capacity - _head : _tail + 1))
@@ -98,19 +95,23 @@ public struct Queue<T> {
         } else {
             memcpy(&_contents, &_contents + _head * size, count * size)
         }
+        _head = 0
+        _tail = count - 1
+        capacity = newCapacity
     }
 }
 
 extension Queue: CustomStringConvertible {
     @inline(__always)
     private func createString(_ elements: ArraySlice<T>...) -> String {
-        elements.flatMap{ $0 }.map{ String(describing: $0)}.joined(separator: ", ")
+        elements.flatMap{ $0 }.description
     }
     
     public var description: String {
+        print(_head, _tail)
         return _isContinuous
-            ? "[" + _contents[_head..._tail].map{ String(describing: $0)}.joined(separator: ", ") + "]"
-            : "[" + createString(_contents[_head...], _contents[..._tail]) + "]"
+            ? _contents[_head..._tail].description
+            : createString(_contents[_head...], _contents[..._tail])
     }
 }
 
@@ -120,7 +121,7 @@ extension Queue: ExpressibleByArrayLiteral {
     
     public init(arrayLiteral elements: T...) {
         _contents = elements
+        count = 3
         capacity = elements.count
     }
-    
 }

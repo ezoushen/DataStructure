@@ -74,20 +74,17 @@ class QueueTests: XCTestCase {
         sut.dequeue()
         sut.enqueue(4)
         sut.resize(capacity: 4)
-        print(sut.capacity)
-
+        XCTAssert(sut.peek() == 2)
         XCTAssert(sut.capacity == 4)
         sut.enqueue(5)
         sut.enqueue(6)
-        print(sut.capacity)
-
+        XCTAssert(sut.peek() == 2)
         XCTAssert(sut.capacity == 8)
         for _ in 0...3 {
             sut.dequeue()
         }
         sut.resize(capacity: 1)
-        print(sut.capacity)
-
+        XCTAssert(sut.peek() == 6)
         XCTAssert(sut.capacity == 1)
     }
     
@@ -115,5 +112,25 @@ class QueueTests: XCTestCase {
         XCTAssert(sut.capacity == 3)
         XCTAssert(sut.count == 0)
         XCTAssert(sut.peek() == nil)
+    }
+    
+    func test_customStringComvertible() {
+        sut.enqueue(1)
+        sut.enqueue(2)
+        sut.enqueue(3)
+        XCTAssert(sut.description == [1,2,3].description)
+        sut.dequeue()
+        XCTAssert(sut.description == [2,3].description)
+        sut.enqueue(4)
+        XCTAssert(sut.description == [2,3,4].description)
+        sut.enqueue(5)
+        XCTAssert(sut.description == [2,3,4,5].description)
+    }
+    
+    func test_expressibleByArrayLiteral() {
+        sut = [1, 2, 3]
+        XCTAssert(sut.peek() == 1)
+        XCTAssert(sut.count == 3)
+        XCTAssert(sut.description == [1, 2, 3].description)
     }
 }
