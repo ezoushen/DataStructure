@@ -7,13 +7,14 @@
 
 import Foundation
 
-public struct Queue<T> {
+public struct Queue<T>: RawArrayOperator {
+    
     private var _contents: [T]
     private var _head: Int = 0
     private var _tail: Int = -1
     
-    private(set) public var count: Int = 0
-    private(set) public var capacity: Int {
+    internal(set) public var count: Int = 0
+    internal(set) public var capacity: Int {
         didSet {
             _contents.reserveCapacity(capacity)
         }

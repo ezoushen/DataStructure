@@ -7,12 +7,12 @@
 
 import Foundation
 
-public struct Stack<T> {
+public struct Stack<T>: RawArrayOperator {
     private var _contents: [T]
     
-    private(set) public var count: Int = 0
+    internal(set) public var count: Int = 0
     
-    private(set) public var capacity: Int {
+    internal(set) public var capacity: Int {
         didSet {
             _contents.reserveCapacity(capacity)
         }
@@ -58,10 +58,6 @@ public struct Stack<T> {
     
     public mutating func resize(capacity newCapacity: Int) {
         capacity = newCapacity
-    }
-    
-    public mutating func trim() {
-        resize(capacity: max(1, count))
     }
     
     public mutating func clear(_ releaseMemory: Bool = true) {
