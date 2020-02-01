@@ -12,7 +12,7 @@ public struct Queue<T> {
     private var _head: Int = 0
     private var _tail: Int = -1
     
-    private(set) public var count: Int
+    private(set) public var count: Int = 0
     private(set) public var capacity: Int {
         didSet {
             _contents.reserveCapacity(capacity)
@@ -32,7 +32,6 @@ public struct Queue<T> {
     }
     
     public init(capacity: Int) {
-        self.count = 0
         self.capacity = capacity
         
         _contents = [T]()
@@ -113,4 +112,15 @@ extension Queue: CustomStringConvertible {
             ? "[" + _contents[_head..._tail].map{ String(describing: $0)}.joined(separator: ", ") + "]"
             : "[" + createString(_contents[_head...], _contents[..._tail]) + "]"
     }
+}
+
+extension Queue: ExpressibleByArrayLiteral {
+    
+    public typealias ArrayLiteralElement = T
+    
+    public init(arrayLiteral elements: T...) {
+        _contents = elements
+        capacity = elements.count
+    }
+    
 }
