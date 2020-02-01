@@ -20,13 +20,13 @@ class StackTests: XCTestCase {
     
     func test_push_pop() {
         sut.push(1)
-        XCTAssert((try? sut.pop()) == 1)
+        XCTAssert(sut.pop() == 1)
     }
     
     func test_peek() {
         sut.push(1)
         sut.push(2)
-        XCTAssert((try? sut.peek()) == 2)
+        XCTAssert(sut.peek() == 2)
     }
     
     func test_count() {
@@ -65,9 +65,9 @@ class StackTests: XCTestCase {
         sut.push(4)
         XCTAssert(sut.capacity == 6)
         XCTAssert(sut.count == 4)
-        XCTAssert((try? sut.peek()) == 4)
-        XCTAssert((try? sut.pop()) == 4)
-        XCTAssert((try? sut.peek()) == 3)
+        XCTAssert(sut.peek() == 4)
+        XCTAssert(sut.pop() == 4)
+        XCTAssert(sut.peek() == 3)
     }
     
     func test_trim() {
