@@ -1,0 +1,6 @@
+use_frameworks!
+target 'DataStructure_Tests' do
+  pod 'DataStructure', :path => '../'
+  
+  
+end
