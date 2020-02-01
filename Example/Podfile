@@ -1,6 +1,8 @@
 use_frameworks!
+
+platform :ios, '11.0'
+
 target 'DataStructure_Tests' do
   pod 'DataStructure', :path => '../'
-  
   
 end

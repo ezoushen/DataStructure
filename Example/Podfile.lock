@@ -1,0 +1,16 @@
+PODS:
+  - DataStructure (1.0.0)
+
+DEPENDENCIES:
+  - DataStructure (from `../`)
+
+EXTERNAL SOURCES:
+  DataStructure:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  DataStructure: 1d54e01d1b49707321a7d563bc7352ec71c746c9
+
+PODFILE CHECKSUM: e5ff064df6a82253ea680f7a3b5245f5df21a7fd
+
+COCOAPODS: 1.8.4
