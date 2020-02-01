@@ -75,21 +75,23 @@ class StackTests: XCTestCase {
         XCTAssert(sut.count == 0 && sut.capacity == 1)
     }
     
-    func test_clear() {
+    func test_clear_releaseMemory() {
         sut.push(1)
         sut.push(2)
         sut.push(3)
         sut.push(4)
         sut.clear()
-        XCTAssert(sut.count == 0 && sut.capacity == 6)
+        XCTAssert(sut.count == 0 && sut.capacity == 1)
+        XCTAssert(sut.peek() == nil)
     }
     
-    @available(iOS 13.0, *)
-    func test_performance() {
-        measure {
-            for i in 0...1000000 {
-                sut.push(i)
-            }
-        }
+    func test_clear_notReleaseMemory() {
+        sut.push(1)
+        sut.push(2)
+        sut.push(3)
+        sut.push(4)
+        sut.clear(false)
+        XCTAssert(sut.count == 0 && sut.capacity == 6)
+        XCTAssert(sut.peek() == nil)
     }
 }

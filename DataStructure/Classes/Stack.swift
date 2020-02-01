@@ -12,7 +12,11 @@ public struct Stack<T> {
     
     private(set) public var count: Int
     
-    private(set) public var capacity: Int
+    private(set) public var capacity: Int {
+        didSet {
+            _contents.reserveCapacity(capacity)
+        }
+    }
     
     public var isEmpty: Bool {
         return count == 0
@@ -30,6 +34,7 @@ public struct Stack<T> {
         _contents.reserveCapacity(capacity)
     }
     
+    @discardableResult
     public mutating func pop() -> T? {
         guard count > 0 else { return nil }
         count -= 1
@@ -53,7 +58,6 @@ public struct Stack<T> {
     }
     
     public mutating func resize(capacity newCapacity: Int) {
-        _contents.reserveCapacity(newCapacity)
         capacity = newCapacity
     }
     
@@ -61,9 +65,11 @@ public struct Stack<T> {
         resize(capacity: max(1, count))
     }
     
-    public mutating func clear() {
-        _contents = [T]()
-        _contents.reserveCapacity(capacity)
+    public mutating func clear(_ releaseMemory: Bool = true) {
         count = 0
+        
+        guard releaseMemory else { return }
+        _contents = [T]()
+        capacity = 1
     }
 }
