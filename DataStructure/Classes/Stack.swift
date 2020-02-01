@@ -73,3 +73,9 @@ public struct Stack<T> {
         capacity = 1
     }
 }
+
+extension Stack: CustomStringConvertible {
+    public var description: String {
+        return _contents[...(count-1)].description
+    }
+}

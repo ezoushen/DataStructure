@@ -94,4 +94,14 @@ class StackTests: XCTestCase {
         XCTAssert(sut.count == 0 && sut.capacity == 6)
         XCTAssert(sut.peek() == nil)
     }
+    
+    func test_customStringConvertible() {
+        sut.push(1)
+        XCTAssert(sut.description == [1].description)
+        sut.push(2)
+        XCTAssert(sut.description == [1, 2].description)
+        sut.push(3)
+        sut.pop()
+        XCTAssert(sut.description == [1,2].description)
+    }
 }
