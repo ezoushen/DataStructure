@@ -8,7 +8,7 @@
 import Foundation
 
 public struct Stack<T> {
-    private var _contents: [T?]
+    private var _contents: [T]
     
     private(set) public var count: Int
     
@@ -26,24 +26,21 @@ public struct Stack<T> {
         self.count = 0
         self.capacity = capacity
         
-        _contents = [T?](repeating: nil, count: capacity)
+        _contents = [T]()
+        _contents.reserveCapacity(capacity)
     }
     
-    public mutating func pop() throws -> T? {
+    public mutating func pop() -> T? {
         guard count > 0 else { return nil }
-        guard let value = _contents[count - 1] else {
-            throw Error.valueUnset
-        }
-        _contents[count - 1] = nil
         count -= 1
-        return value
+        return _contents[count]
     }
     
     public func peek() -> T? {
-        guard count > 0, let value = _contents[count - 1] else {
+        guard count > 0 else {
             return nil
         }
-        return value
+        return _contents[count - 1]
     }
     
     public mutating func push(_ value: T) {
@@ -51,16 +48,22 @@ public struct Stack<T> {
             resize(capacity: count * 2)
         }
         
-        _contents[count] = value
+        _contents.append(value)
         count += 1
     }
     
-    public mutating func resize(capacity: Int) {
-        var newArray = [T?](repeating: nil, count: capacity)
-        memcpy(&newArray,
-               _contents,
-               capacity * MemoryLayout<T>.alignment)
-        _contents = newArray
-        self.capacity = capacity
+    public mutating func resize(capacity newCapacity: Int) {
+        _contents.reserveCapacity(newCapacity)
+        capacity = newCapacity
+    }
+    
+    public mutating func trim() {
+        resize(capacity: max(1, count))
+    }
+    
+    public mutating func clear() {
+        _contents = [T]()
+        _contents.reserveCapacity(capacity)
+        count = 0
     }
 }

@@ -18,10 +18,6 @@ class StackTests: XCTestCase {
         XCTAssert(sut.capacity == 3)
     }
     
-    func test_pop_throw() {
-        XCTAssertThrowsError(try sut.pop())
-    }
-    
     func test_push_pop() {
         sut.push(1)
         XCTAssert((try? sut.pop()) == 1)
@@ -30,7 +26,7 @@ class StackTests: XCTestCase {
     func test_peek() {
         sut.push(1)
         sut.push(2)
-        XCTAssert(sut.peek() == 2)
+        XCTAssert((try? sut.peek()) == 2)
     }
     
     func test_count() {
@@ -69,8 +65,31 @@ class StackTests: XCTestCase {
         sut.push(4)
         XCTAssert(sut.capacity == 6)
         XCTAssert(sut.count == 4)
-        XCTAssert(sut.peek() == 4)
+        XCTAssert((try? sut.peek()) == 4)
         XCTAssert((try? sut.pop()) == 4)
-        XCTAssert(sut.peek() == 3)
+        XCTAssert((try? sut.peek()) == 3)
+    }
+    
+    func test_trim() {
+        sut.trim()
+        XCTAssert(sut.count == 0 && sut.capacity == 1)
+    }
+    
+    func test_clear() {
+        sut.push(1)
+        sut.push(2)
+        sut.push(3)
+        sut.push(4)
+        sut.clear()
+        XCTAssert(sut.count == 0 && sut.capacity == 6)
+    }
+    
+    @available(iOS 13.0, *)
+    func test_performance() {
+        measure {
+            for i in 0...1000000 {
+                sut.push(i)
+            }
+        }
     }
 }
