@@ -14,10 +14,6 @@ class StackTests: XCTestCase {
         super.tearDown()
     }
     
-    func test_capacity() {
-        XCTAssert(sut.capacity == 3)
-    }
-    
     func test_push_pop() {
         sut.push(1)
         XCTAssert(sut.pop() == 1)
@@ -42,37 +38,15 @@ class StackTests: XCTestCase {
         XCTAssert(sut.isEmpty == false)
     }
     
-    func test_isFull() {
-        XCTAssert(sut.isFull == false)
-        sut.push(1)
-        sut.push(2)
-        sut.push(3)
-        XCTAssert(sut.isFull == true)
-    }
-    
-    func test_resize() {
-        XCTAssert(sut.capacity == 3)
-        sut.resize(capacity: 6)
-        XCTAssert(sut.capacity == 6)
-    }
-    
     func test_push_autoResize() {
-        XCTAssert(sut.capacity == 3)
         sut.push(1)
         sut.push(2)
         sut.push(3)
-        XCTAssert(sut.capacity == 3)
         sut.push(4)
-        XCTAssert(sut.capacity == 6)
         XCTAssert(sut.count == 4)
         XCTAssert(sut.peek() == 4)
         XCTAssert(sut.pop() == 4)
         XCTAssert(sut.peek() == 3)
-    }
-    
-    func test_trim() {
-        sut.trim()
-        XCTAssert(sut.count == 0 && sut.capacity == 1)
     }
     
     func test_clear_releaseMemory() {
@@ -81,7 +55,7 @@ class StackTests: XCTestCase {
         sut.push(3)
         sut.push(4)
         sut.clear()
-        XCTAssert(sut.count == 0 && sut.capacity == 1)
+        XCTAssert(sut.count == 0)
         XCTAssert(sut.peek() == nil)
     }
     
@@ -91,7 +65,7 @@ class StackTests: XCTestCase {
         sut.push(3)
         sut.push(4)
         sut.clear(false)
-        XCTAssert(sut.count == 0 && sut.capacity == 6)
+        XCTAssert(sut.count == 0)
         XCTAssert(sut.peek() == nil)
     }
     
@@ -108,5 +82,8 @@ class StackTests: XCTestCase {
     func test_expressByArrayLiteral() {
         sut = [1, 2, 3]
         XCTAssert([1, 2, 3].description == sut.description)
+        sut.pop()
+        XCTAssert(sut.description == [1, 2].description)
+        XCTAssert(sut[0] == 1)
     }
 }

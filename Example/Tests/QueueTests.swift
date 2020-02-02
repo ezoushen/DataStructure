@@ -21,17 +21,12 @@ class QueueTests: XCTestCase {
     override func tearDown() {
         super.tearDown()
     }
-
-    func test_capacity() {
-        print(sut.capacity)
-        XCTAssert(sut.capacity == 3)
-    }
     
     func test_count() {
         XCTAssert(sut.count == 0)
         sut.enqueue(1)
         XCTAssert(sut.count == 1)
-        XCTAssert(sut.dequeue() == 1)
+        sut.dequeue()
         XCTAssert(sut.count == 0)
     }
     
@@ -53,13 +48,6 @@ class QueueTests: XCTestCase {
         XCTAssert(sut.dequeue() == 1)
     }
     
-    func test_isFull() {
-        sut.enqueue(1)
-        sut.enqueue(2)
-        sut.enqueue(3)
-        XCTAssert(sut.isFull == true)
-    }
-    
     func test_isEmpty() {
         sut.enqueue(1)
         XCTAssert(sut.isEmpty == false)
@@ -79,24 +67,20 @@ class QueueTests: XCTestCase {
         sut.enqueue(5)
         sut.enqueue(6)
         XCTAssert(sut.peek() == 2)
-        XCTAssert(sut.capacity == 8)
         for _ in 0...3 {
             sut.dequeue()
         }
         sut.resize(capacity: 1)
         XCTAssert(sut.peek() == 6)
-        XCTAssert(sut.capacity == 1)
     }
     
     func test_clear_releaseMemory() {
         sut.enqueue(1)
         sut.enqueue(2)
-        
         XCTAssert(sut.count == 2)
         
         sut.clear()
         
-        XCTAssert(sut.capacity == 1)
         XCTAssert(sut.count == 0)
         XCTAssert(sut.peek() == nil)
     }
@@ -109,7 +93,6 @@ class QueueTests: XCTestCase {
         
         sut.clear(false)
         
-        XCTAssert(sut.capacity == 3)
         XCTAssert(sut.count == 0)
         XCTAssert(sut.peek() == nil)
     }
@@ -122,7 +105,8 @@ class QueueTests: XCTestCase {
         sut.dequeue()
         XCTAssert(sut.description == [2,3].description)
         sut.enqueue(4)
-        XCTAssert(sut.description == [2,3,4].description)
+        let string = sut.description
+        XCTAssert(string == [2,3,4].description)
         sut.enqueue(5)
         XCTAssert(sut.description == [2,3,4,5].description)
     }
@@ -132,5 +116,8 @@ class QueueTests: XCTestCase {
         XCTAssert(sut.peek() == 1)
         XCTAssert(sut.count == 3)
         XCTAssert(sut.description == [1, 2, 3].description)
+        sut.dequeue()
+        XCTAssert(sut.description == [2, 3].description)
+        XCTAssert(sut[0] == 2)
     }
 }

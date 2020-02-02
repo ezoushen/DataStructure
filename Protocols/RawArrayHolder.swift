@@ -13,11 +13,4 @@ public protocol RawArrayOperator {
     
     mutating func clear(_ releaseMemory: Bool)
     mutating func resize(capacity newCapacity: Int)
-    mutating func trim()
-}
-
-public extension RawArrayOperator {
-    mutating func trim() {
-        resize(capacity: max(1, count))
-    }
 }
