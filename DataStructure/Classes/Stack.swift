@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Stack<T>: RawArrayOperator {
+public struct Stack<T> {
     private var _contents: [T]
     
     private(set) public var count: Int = 0

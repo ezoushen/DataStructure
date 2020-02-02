@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Queue<T>: RawArrayOperator {
+public struct Queue<T> {
     
     private var _contents: [T]
     private var _head: Int = 0
